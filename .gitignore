@@ -1,0 +1,19 @@
+# VSCode #
+###################
+.vscode/*
+
+# Local History for Visual Studio Code
+.history/
+
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+GameOfLife
+
+# Testfiles
+*.gol
