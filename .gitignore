@@ -13,7 +13,12 @@
 *.exe
 *.o
 *.so
-GameOfLife
+Busy_Beaver
+main
+
+# Apple Stuff
+main.dSYM/
+Info.plist
 
 # Testfiles
 *.gol
