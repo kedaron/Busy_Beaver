@@ -16,8 +16,8 @@ If no improvement is seen in the result the chance is increased up to 100% and i
 Because we have 13 States a validator is needed. The following things have to be checked:
 
 * are the last 4 bits <= 1100 (12)
-* is the first bit a 0
-* is the 3 bit a 1
+* is the first bit a 1
+* is the 3 bit a 0
 * atleast one instruction in the set has to contain 1100 (12) as the next step 
 
 If one of the results is negative we can skip the touring path and let the child die.<br>
