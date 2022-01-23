@@ -14,8 +14,7 @@ std::uniform_int_distribution<int> state_selector(0, 5);
 std::uniform_int_distribution<int> bit_selector(0, 9);
 std::uniform_int_distribution<int> mutationSelector(0,100);
 
-//All possible instructions for a card
-int head[4] =  {0x0, 0x1, 0x2, 0x3};
+
 
 
 template <typename T>
@@ -39,6 +38,8 @@ T randomSelect(std::vector<T> population){
     return population[selector(mt)];
 }
 
+//All possible instructions for a card
+int head[4] =  {0x0, 0x1, 0x2, 0x3};
 
 std::vector<int> generateInstructionSet(int amount_of_cards){
     std::vector<int> cards(amount_of_cards);
@@ -169,10 +170,6 @@ class TouringMachine{
             }
         }
 
-        void shift(int index, int amount){
-            _instructionset[index] ^= (1<<amount);
-        }
-
         std::vector<int> getInstructionSet(){
             return _instructionset;
         }
@@ -259,7 +256,7 @@ void BusyBeaver::setup(){
 
 void BusyBeaver::compute(){
     TouringMachine ch1, ch2;
-    int bestFitness = 0, gens = 0, elite = 10;
+    int bestFitness = 0, elite = 10;
 
     while(population[0].getFitness() != end_condition){
         for(auto i = 0; i< (int) population.size(); i+=2){
@@ -280,14 +277,6 @@ void BusyBeaver::compute(){
             bestFitness = population[0].getFitness();
             std::cout << "New Fitness "<< bestFitness << std::endl;
         }
-
-        if(gens++ % 1000 == 0){
-            std::cout << std::endl;
-            std::cout << "Current Fitness "<< population[0].getFitness() << std::endl;
-            for(auto &r: population[0].getInstructionSet()){
-                std::cout << std::bitset<10>(r) << std::endl;
-            }
-        }     
     }
 
 }

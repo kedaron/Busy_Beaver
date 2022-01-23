@@ -39,6 +39,9 @@ int main(int argc,  char* argv[]){
 
     switch (states)
     {
+    case 1:
+        end_condition = 1;
+        break;
     case 2:
         end_condition = 4;
         break;
@@ -48,12 +51,10 @@ int main(int argc,  char* argv[]){
     case 4:
         end_condition = 13;
         break;
-    case 5:
-        end_condition = 4098;
-        break;
+
 
     default:
-        std::cerr << "States bigger than 5 are not implemented" << std::endl;
+        std::cerr << "States bigger than 4 are not implemented" << std::endl;
         return 1;
     }
 
@@ -109,7 +110,7 @@ void show_usage(const std::string& name)
               << "\nOptions:\n"
               << "\t-h,  --help\t\tShow this help message\n"
               << "\t-p,  --population\tSpecify the population Size (Optional, default=100)\n"
-              << "\t-st, --states\t\tHow many states should be solved (Optional, default=2, n>=2) \n"
-              << "\t-m,  --measure\t\tSpecify if execution should be timed (optional, default=false)\n"
+              << "\t-st, --states\t\tHow many states should be solved (Optional, default=2, n>=2 && n<5) \n"
+              << "\t-m,  --measure\t\tSpecify if execution should be timed (Optional, default=false)\n"
               << std::endl;
 }
