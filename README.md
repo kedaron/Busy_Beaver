@@ -91,6 +91,8 @@ After the crossover, there is a chance that the child mutates one random bit in 
 ## Finalization
 After a solution is found it is printed.
 
+<br>
+<br>
 
 ## Found Solutions:
 These are a few solutions we found using the GA. <br>
