@@ -1,6 +1,6 @@
 PROJECT := Busy_Beaver
 CXX := g++
-CXXFLAGS := -Wall --std=c++17 -O3
+CXXFLAGS := -fopenmp -Wall --std=c++17 -O3
 BIN_DIR := ./bin
 BUILD_DIR := ./build
 SRC_DIR := ./src
