@@ -94,8 +94,8 @@ After a solution is found it is printed.
 
 ## Found Solutions:
 These are a few solutions we found using the GA. <br>
-Feel free to evaluate these results using the Touring Class that is found in the BusyBeaver File or go to the online C++ Compiler and run or fork the code. <br>
-https://onlinegdb.com/J2ks44D0K
+The solutions can be evaluated by using the test script in the folder test.<br>
+Inside the folder test, you find an extra make file that can be used to create the test executable.
 
 <br>
 

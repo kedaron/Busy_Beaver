@@ -1,6 +1,3 @@
-#include <string>
-#include "BusyBeaver.h"
-#include "TouringMachine.h"
 #include <algorithm>
 #include <vector>
 #include <iostream>
@@ -13,29 +10,6 @@ std::uniform_int_distribution<int> state_selector(0, 5);
 std::uniform_int_distribution<int> bit_selector(0, 9);
 std::uniform_int_distribution<int> mutationSelector(0,100);
 
-
-template <typename T>
-T tournamentSelect(std::vector<T> population, int n_select){
-    std::uniform_int_distribution<int32_t> selector(0,population.size()-1);
-    std::vector<T> select_parents;
-
-    for(auto i = n_select-1; i>=0; i--){
-        select_parents.push_back(population[selector(mt)]);
-    }
-
-    std::sort(select_parents.begin(), select_parents.end(),[](T & one, T & two){return one.getFitness() > two.getFitness();});
-
-    return select_parents[0];
-}
-
-template <typename T>
-T randomSelect(std::vector<T> population){
-    std::uniform_int_distribution<int32_t> selector(0,population.size()-1);
-
-    return population[selector(mt)];
-}
-
-//All possible instructions for a card
 int head[4] =  {0x0, 0x1, 0x2, 0x3};
 
 std::vector<int> generateInstructionSet(int amount_of_cards){
@@ -188,101 +162,3 @@ class TouringMachine{
         }
     
 };
-
-void insertElement(std::vector<TouringMachine> &pop, std::vector<TouringMachine> &next_gen, int elite){
-
-    for(auto i = elite; i < (int) pop.size(); i++){
-        pop[i] = next_gen[i-elite];
-    }
-
-    std::sort(pop.begin(), pop.end(),[](TouringMachine & one, TouringMachine & two){return one.getFitness() > two.getFitness();});
-}
-
-void crossover(TouringMachine& p1, TouringMachine& p2, TouringMachine& c1, TouringMachine& c2, int chance){
-    std::vector<int>child_1 = p1.getInstructionSet();
-    std::vector<int>child_2 = p2.getInstructionSet();
-
-    int child_1_value, child_2_value;
-    int crosspoint = (int) pow(2, bit_selector(mt));
-    int inverse_crosspoint = (1024 - crosspoint);
-
-    for(auto i = 0; i< (int) child_1.size() && chance<100; i++){
-        
-        child_1_value =  child_1[i] & crosspoint;
-        child_2_value =  child_2[i] & crosspoint;
-     
-
-        child_1[i] = (child_1[i] &  inverse_crosspoint) | child_1_value;
-        child_2[i] = (child_2[i] &  inverse_crosspoint) | child_2_value;
-    }
-
-    c1 = TouringMachine(child_1, p1.getEndcondition(), p1.getStates());
-    c2 = TouringMachine(child_2, p2.getEndcondition(), p2.getStates());
-
-    c1.mutate(chance); 
-    c2.mutate(chance); 
-
-    c1.run();
-    c2.run();
-}
-
-
-//Busy Beaver
-std::vector<TouringMachine> population;
-std::vector<TouringMachine> next_gen;
-
-BusyBeaver::BusyBeaver(int _states, int _population_int, int _end_condition){
-    states = _states;
-    population_int = _population_int;
-    end_condition = _end_condition;
-}
-
-void BusyBeaver::setup(){
-    population.resize(population_int);
-    next_gen.resize(population_int);
-
-    for(auto &pop : population){
-        pop = TouringMachine(end_condition, states);
-        pop.run();
-    }
-
-    std::sort(population.begin(), population.end(),[](TouringMachine & one, TouringMachine & two){return one.getFitness() > two.getFitness();});
-    std::cout << "Setup ended! Start Computation:" << std::endl;
-}  
-
-
-void BusyBeaver::compute(){
-    TouringMachine ch1, ch2;
-    int bestFitness = 0, elite = 10;
-
-    while(population[0].getFitness() != end_condition){
-        for(auto i = 0; i< (int) population.size(); i+=2){
-
-            ch1 = tournamentSelect(population, 2);
-            ch2 = tournamentSelect(population, 2);
-
-            crossover(ch1, ch2, next_gen[i], next_gen[i+1], 100);
-        }
-
-        std::sort(next_gen.begin(), next_gen.end(),[](TouringMachine & one, TouringMachine & two){return one.getFitness() > two.getFitness();});
-       
-        insertElement(population, next_gen, elite);
-     
-        std::sort(population.begin(), population.end(),[](TouringMachine & one, TouringMachine & two){return one.getFitness() > two.getFitness();});
-        
-        if(bestFitness < population[0].getFitness()){
-            bestFitness = population[0].getFitness();
-            std::cout << "New Fitness "<< bestFitness << std::endl;
-        }
-    }
-
-}
-
-void BusyBeaver::finalize(){
-    std::cout << std::endl;
-    std::cout << "Solution found: " << population[0].getFitness() << std::endl;
-
-    for(auto &r: population[0].getInstructionSet()){
-        std::cout << std::bitset<10>(r) << std::endl;
-    }
-}
