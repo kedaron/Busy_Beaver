@@ -1,4 +1,3 @@
-//#include "TouringMachine.h";
 #include "Timing.h"
 #include "BusyBeaver.h"
 #include <iostream>

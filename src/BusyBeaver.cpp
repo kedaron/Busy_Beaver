@@ -1,6 +1,5 @@
 #include <string>
 #include "BusyBeaver.h"
-#include "TouringMachine.h"
 #include <algorithm>
 #include <vector>
 #include <iostream>
